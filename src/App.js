@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SearchBar from './components/SearchbBar';
+import styled from 'styled-components';
+
+const Div = styled.div`
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: #232526;
+  background: -webkit-linear-gradient(to right, #cd5c5c, #f08080);
+  background: linear-gradient(to right, #cd5c5c, #f08080);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Div>
+      <SearchBar />
+    </Div>
   );
 }
 
