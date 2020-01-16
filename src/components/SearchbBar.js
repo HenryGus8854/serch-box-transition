@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { ExampleData } from '../data/Data';
 
 const Back = styled.div`
   width: 700px;
@@ -48,12 +49,13 @@ const SearchEx = styled.div`
 const Example = styled.span`
   font-size: 120%;
   padding-left: 5px;
-  padding-top: 7px;
+  padding-top: 8px;
   vertical-align: middle;
   display: inline-block;
 `;
 const Window = styled.div`
-  max-height: 48px;
+  margin-top: 10px;
+  max-height: 27px;
   flex: 1;
   overflow: hidden;
 `;
@@ -69,8 +71,6 @@ const Li = styled.li`
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin-top: 10px;
-  margin-bottom: 15px;
 `;
 const ListBack = styled.div`
   display: flex;
@@ -111,23 +111,20 @@ class SearchBar extends Component {
     super(props);
 
     this.state = {
-      listNum: 0,
       transY: 0
     };
     this.tick = this.tick.bind(this);
   }
-
-  tick() {
-    if (this.state.listNum === 1) {
-      this.setState({ listNum: 2, transY: -45 });
-    } else if (this.state.listNum === 2) {
-      this.setState({ listNum: 3, transY: -85 });
-    } else if (this.state.listNum === 3) {
-      this.setState({ listNum: 1, transY: 0 });
-    } else this.setState({ listNum: 1, transY: 0 });
+  tick(num) {
+    const slides = ExampleData.length;
+    const totalMove = slides * 26 - 26;
+    const Num = num;
+    if (Num < totalMove) {
+      this.setState(prevState => ({ transY: prevState.transY + 26 }));
+    } else this.setState({ transY: 0 });
   }
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 3000);
+    this.interval = setInterval(() => this.tick(this.state.transY), 3000);
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -135,23 +132,9 @@ class SearchBar extends Component {
 
   render() {
     const styles = {
-      transform: 'translateY(' + this.state.transY + 'px)'
+      transform: 'translateY(-' + this.state.transY + 'px)'
     };
-    const Dropdown = [
-      {
-        icon: 'https://img.icons8.com/ios/50/000000/taxi-location.png',
-        eName: '1069 Seawood Ln'
-      },
-      {
-        icon: 'https://img.icons8.com/ios/50/000000/sydney-opera-house.png',
-        eName: 'Sydney Opera House'
-      },
-      {
-        icon:
-          'https://img.icons8.com/pastel-glyph/64/000000/skyscrapers--v2.png',
-        eName: 'Empire State Building'
-      }
-    ];
+    const examples = ExampleData;
     return (
       <Back>
         <Wrapper>
@@ -165,7 +148,7 @@ class SearchBar extends Component {
             <Example>Example: </Example>
             <Window>
               <Suggestions style={{ ...styles }}>
-                {Dropdown.map((model, index) => (
+                {examples.map((model, index) => (
                   <div key={index}>
                     <Li>
                       <ListBack>
